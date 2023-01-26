@@ -1,7 +1,11 @@
+import Header from "./components/UI/Header";
+
+const mail = "ranjitulips@gmail.com";
+
 function App() {
 	return (
 		<div className="App">
-			<h1>Zoho Assessment</h1>
+			<Header mail={mail} />
 		</div>
 	);
 }
