@@ -5,12 +5,49 @@ import ListItemText from "@mui/material/ListItemText";
 import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
 import SeatsBooking from "./SeatsBooking";
+import axios from "axios";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+	return <MuiAlert elevation={1} ref={ref} variant="filled" {...props} />;
+});
 
 export default function FolderList(props) {
+	const { mail, theatre_name } = props;
 	const [open, setOpen] = React.useState(false);
+	const [msgOpen, setMsgOpen] = React.useState(false);
+	const [message, setMessage] = React.useState("");
 	const [selectedMovieName, setSelectedMovieName] = React.useState(null);
 	const [selectedMovieTime, setSelectedMovieTime] = React.useState(null);
 	const [selectedSeats, setSelectedSeats] = React.useState([]);
+
+	const getFormattedDate = (date) => {
+		return new Intl.DateTimeFormat("en-GB").format(date);
+	};
+
+	const bookTicket = async (selectedSeats) => {
+		const url = "https://zincubate.in/api/MovieTicketChecker?action=bookSeats";
+		await axios
+			.post(url, {
+				show_time: selectedMovieTime,
+				movie_name: selectedMovieName,
+				theatre_name: theatre_name,
+				booked_seats: selectedSeats,
+				date: getFormattedDate(new Date()),
+				user_mail_id: mail,
+			})
+			.then(
+				(response) => {
+					console.log(response.data);
+					setMessage(response.data.message);
+					setMsgOpen(true);
+				},
+				(error) => {
+					console.log(error);
+				}
+			);
+	};
 
 	const handleClickOpen = (movie) => {
 		setSelectedMovieName(movie.movieName);
@@ -22,8 +59,12 @@ export default function FolderList(props) {
 		setOpen(false);
 	};
 
+	const handleMsgClose = () => {
+		setMsgOpen(false);
+	};
+
 	const handleConfirm = (selectedSeats) => {
-		setSelectedSeats(selectedSeats);
+		bookTicket(selectedSeats);
 		setOpen(false);
 	};
 
@@ -76,6 +117,20 @@ export default function FolderList(props) {
 				handleClose={handleClose}
 				handleConfirm={handleConfirm}
 			/>
+			<Snackbar
+				open={msgOpen}
+				autoHideDuration={6000}
+				onClose={handleMsgClose}
+				anchorOrigin={{ horizontal: "center", vertical: "bottom" }}
+			>
+				<Alert
+					onClose={handleMsgClose}
+					severity="success"
+					sx={{ width: "100%" }}
+				>
+					{message}
+				</Alert>
+			</Snackbar>
 		</>
 	);
 }

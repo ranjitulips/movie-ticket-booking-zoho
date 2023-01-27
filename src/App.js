@@ -46,7 +46,7 @@ function App() {
 						? "Loading..."
 						: listOfTheatres.theatre.map((theatre, index) => (
 								<Grid item xs={4} sm={4} md={4} key={index}>
-									<TheatresList theatre={theatre} />
+									<TheatresList theatre={theatre} mail={mail} />
 								</Grid>
 						  ))}
 				</Grid>

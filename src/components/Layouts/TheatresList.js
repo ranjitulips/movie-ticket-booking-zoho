@@ -14,6 +14,8 @@ export default function TheatresList(props) {
 	const { theatre_name, thumbnail_url, website, address, customer_rating } =
 		props.theatre;
 
+	const { mail } = props;
+
 	const movieDetails = {
 		show1_movie: props.theatre.show1_movie,
 		show1_time: props.theatre.show1_time,
@@ -40,7 +42,11 @@ export default function TheatresList(props) {
 				<Typography variant="body2" color="text.secondary">
 					{`${customer_rating} rating`}
 				</Typography>
-				<MovieList movieDetails={movieDetails} />
+				<MovieList
+					movieDetails={movieDetails}
+					mail={mail}
+					theatre_name={theatre_name}
+				/>
 			</CardContent>
 			<CardActions>
 				<IconButton aria-label="website">
