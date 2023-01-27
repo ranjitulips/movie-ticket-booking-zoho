@@ -8,8 +8,13 @@ import SeatsBooking from "./SeatsBooking";
 
 export default function FolderList(props) {
 	const [open, setOpen] = React.useState(false);
+	const [selectedMovieName, setSelectedMovieName] = React.useState(null);
+	const [selectedMovieTime, setSelectedMovieTime] = React.useState(null);
+	const [selectedSeats, setSelectedSeats] = React.useState([]);
 
-	const handleClickOpen = () => {
+	const handleClickOpen = (movie) => {
+		setSelectedMovieName(movie.movieName);
+		setSelectedMovieTime(movie.movieTime);
 		setOpen(true);
 	};
 
@@ -17,7 +22,8 @@ export default function FolderList(props) {
 		setOpen(false);
 	};
 
-	const handleConfirm = () => {
+	const handleConfirm = (selectedSeats) => {
+		setSelectedSeats(selectedSeats);
 		setOpen(false);
 	};
 
@@ -40,7 +46,7 @@ export default function FolderList(props) {
 						variant="outlined"
 						size="small"
 						onClick={(e) => {
-							handleClickOpen(e);
+							handleClickOpen(props);
 						}}
 					>
 						Book Now
@@ -64,6 +70,8 @@ export default function FolderList(props) {
 				<Movie movieName={show4_movie} movieTime={show4_time} />
 			</List>
 			<SeatsBooking
+				selectedMovieName={selectedMovieName}
+				selectedMovieTime={selectedMovieTime}
 				open={open}
 				handleClose={handleClose}
 				handleConfirm={handleConfirm}

@@ -7,6 +7,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Button from "@mui/material/Button";
+import DialogContentText from "@mui/material/DialogContentText";
 
 export default function PaginationRounded(props) {
 	const { open } = props;
@@ -15,9 +16,10 @@ export default function PaginationRounded(props) {
 		setSelectedSeats([]);
 		props.handleClose();
 	};
+
 	const handleConfirm = () => {
+		props.handleConfirm(selectedSeats);
 		setSelectedSeats([]);
-		props.handleConfirm();
 	};
 
 	const handleOnClick = (page) => {
@@ -37,9 +39,12 @@ export default function PaginationRounded(props) {
 
 	return (
 		<Dialog open={open} onClose={handleClose}>
-			<DialogTitle>Select your seats</DialogTitle>
+			<DialogTitle>
+				Select your seats for {props.selectedMovieName} @{" "}
+				{props.selectedMovieTime}
+			</DialogTitle>
 			<DialogContent>
-				<Stack spacing={2}>
+				<Stack spacing={2} margin={3}>
 					<Pagination
 						onChange={(event, page) => {
 							handleOnClick(page);
