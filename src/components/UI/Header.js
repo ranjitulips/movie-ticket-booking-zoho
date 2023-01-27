@@ -7,11 +7,11 @@ import Typography from "@mui/material/Typography";
 const Header = (props) => {
 	return (
 		<AppBar position="static">
-			<Toolbar>
-				<Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+			<Toolbar variant="dense">
+				<Typography variant="subtitle2" component="div" sx={{ flexGrow: 1 }}>
 					Z- Movie Booking
 				</Typography>
-				<Typography variant="h6" component="div">
+				<Typography variant="subtitle2	" component="div">
 					{props.mail}
 				</Typography>
 			</Toolbar>
