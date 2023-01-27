@@ -62,7 +62,7 @@ export default function TheatresList(props) {
 					onError={onMediaFallback}
 				/>
 				<CardContent>
-					<Typography gutterBottom variant="h5" component="div">
+					<Typography gutterBottom variant="h6" component="div">
 						{theatre_name}
 					</Typography>
 					<Typography variant="body2" color="text.secondary">

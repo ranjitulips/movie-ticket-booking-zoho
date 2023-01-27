@@ -3,7 +3,6 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import Button from "@mui/material/Button";
-import Divider from "@mui/material/Divider";
 import SeatsBooking from "./SeatsBooking";
 import axios from "axios";
 import Snackbar from "@mui/material/Snackbar";
@@ -86,6 +85,8 @@ export default function FolderList(props) {
 	const Movie = (props) => {
 		return (
 			<ListItem
+				divider={true}
+				disableGutters
 				secondaryAction={
 					<Button
 						variant="outlined"
@@ -107,11 +108,8 @@ export default function FolderList(props) {
 		<>
 			<List sx={{ width: "100%", bgcolor: "background.paper" }}>
 				<Movie movieName={show1_movie} movieTime={show1_time} />
-				<Divider />
 				<Movie movieName={show2_movie} movieTime={show2_time} />
-				<Divider />
 				<Movie movieName={show3_movie} movieTime={show3_time} />
-				<Divider />
 				<Movie movieName={show4_movie} movieTime={show4_time} />
 			</List>
 			<SeatsBooking
