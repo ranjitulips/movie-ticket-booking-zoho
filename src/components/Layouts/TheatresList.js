@@ -69,29 +69,27 @@ export default function TheatresList(props) {
 						{`${customer_rating} rating`}
 					</Typography>
 				</CardContent>
-				<CardActions></CardActions>
-
-				<CardActions disableSpacing>
-					<IconButton aria-label="website" href={website} target={"_blank"}>
-						<PublicIcon href={website} />
-					</IconButton>
-					<IconButton
-						aria-label="address"
-						href={`https://www.google.com/maps/dir/?api=1&destination=${address}&dir_action=navigate`}
-						target={"_blank"}
-					>
-						<PlaceIcon />
-					</IconButton>
-					<ExpandMore
-						expand={expanded}
-						onClick={handleExpandClick}
-						aria-expanded={expanded}
-						aria-label="show more"
-					>
-						<ExpandMoreIcon />
-					</ExpandMore>
-				</CardActions>
 			</CardActionArea>
+			<CardActions disableSpacing>
+				<IconButton aria-label="website" href={website} target={"_blank"}>
+					<PublicIcon href={website} />
+				</IconButton>
+				<IconButton
+					aria-label="address"
+					href={`https://www.google.com/maps/dir/?api=1&destination=${address}&dir_action=navigate`}
+					target={"_blank"}
+				>
+					<PlaceIcon />
+				</IconButton>
+				<ExpandMore
+					expand={expanded}
+					onClick={handleExpandClick}
+					aria-expanded={expanded}
+					aria-label="show more"
+				>
+					<ExpandMoreIcon />
+				</ExpandMore>
+			</CardActions>
 			<Collapse in={expanded} timeout="auto" unmountOnExit>
 				<CardContent>
 					<MovieList
