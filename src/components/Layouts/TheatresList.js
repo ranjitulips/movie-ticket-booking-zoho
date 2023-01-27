@@ -7,14 +7,36 @@ import CardMedia from "@mui/material/CardMedia";
 import IconButton from "@mui/material/IconButton";
 import PublicIcon from "@mui/icons-material/Public";
 import PlaceIcon from "@mui/icons-material/Place";
-import Link from "@mui/material/Link";
 import MovieList from "./MovieList";
+import FALLBACK_IMAGE from "../../assets/images/fallbackimage.jpg";
+import ExpandMoreIcon from "@mui/icons-material/ExpandCircleDownOutlined";
+import CardActionArea from "@mui/material/CardActionArea";
+
+import { styled } from "@mui/material/styles";
+import Collapse from "@mui/material/Collapse";
+
+const ExpandMore = styled((props) => {
+	const { expand, ...other } = props;
+	return <IconButton {...other} color="primary" />;
+})(({ theme, expand }) => ({
+	transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
+	marginLeft: "auto",
+	transition: theme.transitions.create("transform", {
+		duration: theme.transitions.duration.shortest,
+	}),
+}));
 
 export default function TheatresList(props) {
 	const { theatre_name, thumbnail_url, website, address, customer_rating } =
 		props.theatre;
 
 	const { mail } = props;
+
+	const [expanded, setExpanded] = React.useState(false);
+
+	const handleExpandClick = () => {
+		setExpanded(!expanded);
+	};
 
 	const movieDetails = {
 		show1_movie: props.theatre.show1_movie,
@@ -27,42 +49,58 @@ export default function TheatresList(props) {
 		show4_movie: props.theatre.show4_movie,
 	};
 
+	const onMediaFallback = (event) => (event.target.src = FALLBACK_IMAGE);
+
 	return (
-		<Card sx={{ maxWidth: 345 }}>
-			<CardMedia
-				component="img"
-				alt={theatre_name}
-				height="140"
-				image={thumbnail_url}
-			/>
-			<CardContent>
-				<Typography gutterBottom variant="h5" component="div">
-					{theatre_name}
-				</Typography>
-				<Typography variant="body2" color="text.secondary">
-					{`${customer_rating} rating`}
-				</Typography>
-				<MovieList
-					movieDetails={movieDetails}
-					mail={mail}
-					theatre_name={theatre_name}
+		<Card sx={{ maxWidth: 345 }} raised={true}>
+			<CardActionArea onClick={handleExpandClick}>
+				<CardMedia
+					component="img"
+					alt={theatre_name}
+					height="140"
+					image={thumbnail_url}
+					onError={onMediaFallback}
 				/>
-			</CardContent>
-			<CardActions>
-				<IconButton aria-label="website">
-					<Link href={website} underline="none">
-						<PublicIcon />
-					</Link>
-				</IconButton>
-				<IconButton aria-label="address">
-					<Link
-						href={`https://www.google.com/maps/dir/?api=1&destination=${address}`}
-						underline="none"
+				<CardContent>
+					<Typography gutterBottom variant="h5" component="div">
+						{theatre_name}
+					</Typography>
+					<Typography variant="body2" color="text.secondary">
+						{`${customer_rating} rating`}
+					</Typography>
+				</CardContent>
+				<CardActions></CardActions>
+
+				<CardActions disableSpacing>
+					<IconButton aria-label="website" href={website} target={"_blank"}>
+						<PublicIcon href={website} />
+					</IconButton>
+					<IconButton
+						aria-label="address"
+						href={`https://www.google.com/maps/dir/?api=1&destination=${address}&dir_action=navigate`}
+						target={"_blank"}
 					>
 						<PlaceIcon />
-					</Link>
-				</IconButton>
-			</CardActions>
+					</IconButton>
+					<ExpandMore
+						expand={expanded}
+						onClick={handleExpandClick}
+						aria-expanded={expanded}
+						aria-label="show more"
+					>
+						<ExpandMoreIcon />
+					</ExpandMore>
+				</CardActions>
+			</CardActionArea>
+			<Collapse in={expanded} timeout="auto" unmountOnExit>
+				<CardContent>
+					<MovieList
+						movieDetails={movieDetails}
+						mail={mail}
+						theatre_name={theatre_name}
+					/>
+				</CardContent>
+			</Collapse>
 		</Card>
 	);
 }
