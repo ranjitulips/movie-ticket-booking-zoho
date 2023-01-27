@@ -16,6 +16,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 export default function FolderList(props) {
 	const { mail, theatre_name } = props;
 	const [open, setOpen] = React.useState(false);
+	const [error, setError] = React.useState(false);
 	const [msgOpen, setMsgOpen] = React.useState(false);
 	const [message, setMessage] = React.useState("");
 	const [selectedMovieName, setSelectedMovieName] = React.useState(null);
@@ -40,6 +41,9 @@ export default function FolderList(props) {
 			.then(
 				(response) => {
 					console.log(response.data);
+					response.data.message.includes("successfully")
+						? setError(false)
+						: setError(true);
 					setMessage(response.data.message);
 					setMsgOpen(true);
 				},
@@ -125,7 +129,7 @@ export default function FolderList(props) {
 			>
 				<Alert
 					onClose={handleMsgClose}
-					severity="success"
+					severity={error ? "error" : "success"}
 					sx={{ width: "100%" }}
 				>
 					{message}
